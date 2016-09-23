@@ -1,0 +1,44 @@
+输入两个非负10进制整数A和B(<=230-1)，输出A+B的D (1 < D <= 10)进制数。
+
+输入格式：
+
+输入在一行中依次给出3个整数A、B和D。
+
+输出格式：
+
+输出A+B的D进制数。
+
+输入样例：
+123 456 8
+输出样例：
+1103
+#include<iostream>
+#include<string>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+#include <sstream>
+#include <functional>
+#include<iomanip>
+using namespace std;
+int main(){
+  int a, b, d,c,buff_r,i;
+  vector<int> r;
+  cin >> a >> b >> d;
+  c = a + b;
+  if (c == 0){
+    cout << 0;
+    return 0;
+  }
+    
+  while (c != 0){
+    buff_r = c%d;
+    r.push_back(buff_r);
+    c /= d;
+  }
+  for (i = r.size() - 1; i >= 0; i--){
+    cout << r[i];
+  }
+  system("pause");
+  return 0;
+}
