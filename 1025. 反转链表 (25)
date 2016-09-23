@@ -1,0 +1,98 @@
+给定一个常数K以及一个单链表L，请编写程序将L中每K个结点反转。例如：给定L为1→2→3→4→5→6，K为3，则输出应该为3→2→1→6→5→4；如果K为4，则输出应该为4→3→2→1→5→6，即最后不到K个元素不反转。
+
+输入格式：
+
+每个输入包含1个测试用例。每个测试用例第1行给出第1个结点的地址、结点总个数正整数N(<= 105)、以及正整数K(<=N)，即要求反转的子链结点的个数。结点的地址是5位非负整数，NULL地址用-1表示。
+
+接下来有N行，每行格式为：
+
+Address Data Next
+
+其中Address是结点地址，Data是该结点保存的整数数据，Next是下一结点的地址。
+
+输出格式：
+
+对每个测试用例，顺序输出反转后的链表，其上每个结点占一行，格式与输入相同。
+
+输入样例：
+00100 6 4
+00000 4 99999
+00100 1 12309
+68237 6 -1
+33218 3 00000
+99999 5 68237
+12309 2 33218
+输出样例：
+00000 4 33218
+33218 3 12309
+12309 2 00100
+00100 1 99999
+99999 5 68237
+68237 6 -1
+
+//网上的写的好
+#include<iostream>
+#include<string>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+#include <sstream>
+#include <functional>
+#include<iomanip>
+#include<list>
+using namespace std;
+class k {
+public:
+	//k() = default;
+	//k(const int a, int n, int d) :add(a), next(n), data(d) {}
+	//~k();
+	int add, next, data;
+};
+int main() {
+	int fadd, n, rn, i, add, seq, newn, d = 0;
+	vector<k> arr(100000);
+	vector<k> sort_arr;
+	k buff;
+	cin >> fadd >> n >> rn;
+	if (fadd == -1) {
+		cin >> buff.add >> buff.data >> buff.next;
+		cout << buff.add << " " << buff.data << " " << buff.next;
+		system("pause");
+		return 0;
+	}
+	for (i = 0; i < n; i++) {
+		cin >> buff.add >> buff.data >> buff.next;
+		arr[buff.add] = buff;
+	}
+	seq = fadd;
+	for (i = 0; i < n&&seq != -1; i++) {
+		buff = arr[seq];
+		seq = buff.next;
+		sort_arr.push_back(buff);
+	}
+	n = sort_arr.size();
+	if (n > 1) {
+		while (n >= rn) {
+ 			for (i = rn - 1; i > 0; i--) {
+				sort_arr[i + d].next = sort_arr[i - 1 + d].add;
+			}
+			if (n == rn)
+				sort_arr[i + d].next = -1;
+			else {
+				if (rn > (n - rn))//剩余的不够颠倒
+					sort_arr[i + d].next = sort_arr[rn + d].add;
+				else
+					sort_arr[i + d].next = sort_arr[2 * rn + d-1].add;
+			}
+			reverse(sort_arr.begin() + d, sort_arr.begin() + rn + d);
+			n -= rn;
+			d += rn;
+		}
+
+	}
+	for (i = 0; i < sort_arr.size() - 1; i++)
+		printf("%05d %d %05d\n", sort_arr[i].add, sort_arr[i].data, sort_arr[i].next);
+	printf("%05d %d %d\n", sort_arr[i].add, sort_arr[i].data, sort_arr[i].next);
+	system("pause");
+	return 0;
+}
