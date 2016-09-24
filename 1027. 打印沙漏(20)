@@ -1,0 +1,91 @@
+本题要求你写个程序把给定的符号打印成沙漏的形状。例如给定17个“*”，要求按下列格式打印
+
+*****
+ ***
+  *
+ ***
+*****
+所谓“沙漏形状”，是指每行输出奇数个符号；各行符号中心对齐；相邻两行符号数差2；符号数先从大到小顺序递减到1，再从小到大顺序递增；首尾符号数相等。
+
+给定任意N个符号，不一定能正好组成一个沙漏。要求打印出的沙漏能用掉尽可能多的符号。
+
+输入格式：
+
+输入在一行给出1个正整数N（<=1000）和一个符号，中间以空格分隔。
+
+输出格式：
+
+首先打印出由给定符号组成的最大的沙漏形状，最后在一行中输出剩下没用掉的符号数。
+
+输入样例：
+19 *
+输出样例：
+*****
+ ***
+  *
+ ***
+*****
+2
+
+#include<iostream>
+#include<string>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+#include <sstream>
+#include <functional>
+#include<iomanip>
+#include<list>
+using namespace std;
+void outputspace(int n) {
+	int i;
+	for (i = 0; i < n; i++)
+		cout << " ";
+}
+void outputchar(int n, char c) {
+	int i;
+	for (i = 0; i < n; i++)
+		cout << c;
+}
+int main() {
+	int n, i, s = 0, j, d, t, k, e;
+	char c;
+	cin >> n >> c;
+	if (n != 0) {
+		if (n == 1) {
+			s = 1;
+			cout << c << endl;
+		}
+		else {
+			for (i = 1, s = 1; s + ((i * 2) + 1) * 2 <= n; i++) {
+				s += ((i * 2) + 1) * 2;
+			}
+			d = i - 1;
+			e = i - 1;
+			t = 0;
+			for (i = 0; i <= d; i++) {
+				outputspace(t);
+				outputchar(e, c);
+				cout << c;
+				outputchar(e, c);
+				t++;
+				e--;
+				cout << endl;
+			}
+			t = d - 1;
+			e = 1;
+			for (i = 0; i < d; i++) {
+				outputspace(t);
+				outputchar(e, c);
+				cout << c;
+				outputchar(e, c);
+				t--;
+				e++;
+				cout << endl;
+			}
+		}
+	}
+	cout << n - s;
+	system("pause");
+	return 0;
+}
