@@ -1,0 +1,77 @@
+//a,b相当于指针，顶部，右边，下边，左边
+#include<iostream>
+#include<string>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+#include <sstream>
+#include <functional>
+#include<iomanip>
+#include<map>
+#pragma warning(disable:4996)
+using namespace std;
+int main(void) {
+	int n, i,ind,r=1,c,go,j=0,c1,r1,a=-1,b=1;
+	cin >> n;
+	vector<int> num,sn;
+	for (i = 0; i < n; i++) {
+		cin >> ind;
+		num.push_back(ind);
+	}
+	sort(num.begin(), num.end(), greater<int>());
+	for (i = 1; i <= sqrt(n); i++) {
+		if (!(n%i))
+			r = i;
+	}
+	c = n / r;
+	c1 = c;
+	r1 = r;
+	go = n;
+	sn.resize(n);
+	while (1) {
+		c--;
+		if (!n)
+			break;
+		for (i = 0; i < r; i++) {
+			a++;
+			sn[a+(b-1)*r1] = num[j];
+			n--;
+			j++;
+		}
+		r--;
+		if (!n)
+			break;
+		for (i = 0; i < c; i++) {
+			b++;
+			sn[a+(b-1)*r1] = num[j];
+			j++;
+			n--;
+		}
+		c--;
+		if (!n)
+			break;
+		for (i = 0; i < r; i++) {
+			a--;
+			sn[a + (b - 1)*r1] = num[j];
+			j++;
+			n--;
+		}
+		r--;
+		if (!n)
+			break;
+		for (i = 0; i < c; i++) {
+			b--;
+			sn[a + (b - 1)*r1] = num[j];
+			j++;
+			n--;
+		}
+	}
+	for (i = 0; i < c1; i++) {
+		for (j = 0; j < r1-1; j++)
+			cout << sn[i*r1 + j]<<" ";
+		cout << sn[i*r1 + j];
+		cout << endl;
+	}
+	system("pause");
+	return 0;
+}
