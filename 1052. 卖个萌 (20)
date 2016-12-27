@@ -1,0 +1,108 @@
+萌萌哒表情符号通常由“手”、“眼”、“口”三个主要部分组成。简单起见，我们假设一个表情符号是按下列格式输出的：
+
+[左手]([左眼][口][右眼])[右手]
+现给出可选用的符号集合，请你按用户的要求输出表情。
+
+输入格式：
+
+输入首先在前三行顺序对应给出手、眼、口的可选符号集。每个符号括在一对方括号[]内。题目保证每个集合都至少有一个符号，并不超过10个符号；每个符号包含1到4个非空字符。
+
+之后一行给出一个正整数K，为用户请求的个数。随后K行，每行给出一个用户的符号选择，顺序为左手、左眼、口、右眼、右手——这里只给出符号在相应集合中的序号（从1开始），数字间以空格分隔。
+
+输出格式：
+
+对每个用户请求，在一行中输出生成的表情。若用户选择的序号不存在，则输出“Are you kidding me? @\/@”。
+
+输入样例：
+[╮][╭][o][~\][/~]  [<][>]
+ [╯][╰][^][-][=][>][<][@][⊙]
+[Д][▽][_][ε][^]  ...
+4
+1 1 2 2 2
+6 8 1 5 5
+3 3 4 3 3
+2 10 3 9 3
+输出样例：
+╮(╯▽╰)╭
+<(@Д=)/~
+o(^ε^)o
+Are you kidding me? @\/@
+
+#include<iostream>
+#include<string>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+#include <sstream>
+#include <functional>
+#include<iomanip>
+#include<map>
+#pragma warning(disable:4996)
+using namespace std;
+map<int, string> extract(string str) {
+	int i, j,f,l;
+	map<int, string> rul;
+	for (i = 0, j = 0; j < str.size(); i++) {
+		f = str.find_first_of("[", j);
+		l = str.find_first_of("]", j);
+		if (f == -1)
+			break;
+		rul[i] = str.substr(f + 1, l - f-1);
+		j = l + 1;
+	}
+	return rul;
+}
+bool judge(int num, map<int, string> face) {
+	if (num >face.size()||num<1) {
+		return false;
+	}
+	return true;
+}
+int main(void) {
+	int i, k,j,num[8];
+	bool decide = 1;
+	map<int, string> labelhand,labeleye,labelmouse;
+	string hand, eye, mouse;
+	getline(cin, hand);
+	getline(cin, eye);
+	getline(cin, mouse);
+	labelhand=extract(hand);
+	labeleye = extract(eye);
+	labelmouse = extract(mouse);
+	cin >> k;
+	for (i = 0; i < k; i++) {
+		cin >> num[1];
+		decide = judge(num[1], labelhand);
+		if (!decide) {
+			cout << "Are you kidding me? @\\/@" << endl;
+			continue;
+		}
+		cin >> num[2];
+		decide = judge(num[2], labeleye);
+		if (!decide) {
+			cout <<"Are you kidding me? @\\/@" << endl;
+			continue;
+		}
+		cin >> num[3];
+		decide = judge(num[3], labelmouse);
+		if (!decide) {
+			cout << "Are you kidding me? @\\/@" << endl;
+			continue;
+		}
+		cin >> num[4];
+		decide = judge(num[4], labeleye);
+		if (!decide) {
+			cout << "Are you kidding me? @\\/@" << endl;
+			continue;
+		}
+		cin >> num[5];
+		decide = judge(num[5], labelhand);
+		if (!decide) {
+			cout << "Are you kidding me? @\\/@" << endl;
+			continue;
+		}
+		cout << labelhand[num[1]-1] << "(" << labeleye[num[2]-1] << labelmouse[num[3]-1] << labeleye[num[4]-1] << ")" << labelhand[num[5]-1] << endl;
+	}
+	system("pause");
+	return 0;
+}
