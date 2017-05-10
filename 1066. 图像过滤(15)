@@ -27,34 +27,27 @@
 #include <sstream>
 #include <functional>
 #include<iomanip>
-#include<map>
-#include<set>
+#include<fstream>
 using namespace std;
-int main()
-{
-  int n, m,i,j;
-  vector<int> ans;
-  vector<int> right;
-  int buff,result;
-  cin >> n >> m;
-  for (i = 0; i < m; i++){
-    cin >> buff;
-    ans.push_back(buff);
-  }
-    
-  for (i = 0; i < m; i++){
-    cin >> buff;
-    right.push_back(buff);
-  }
+int main(){
+  int n, m, t, a, b,i,j,buff;
+  vector<int> arr;
+  cin >> n >> m >> a >> b >> t;
   for (i = 0; i < n; i++){
-    result = 0;
     for (j = 0; j < m; j++){
       cin >> buff;
-      if (buff == right[j]){
-        result += ans[j];
-      }
+      if (buff >= a&& buff <= b)
+        buff = t;
+      arr.push_back(buff);
     }
-    cout << result << endl;
+  }
+  for (i = 0; i < n; i++){
+    for (j = 0; j < m-1; j++){
+      printf("%03d ", arr[i*m+j]);
+    }
+    printf("%03d", arr[i*m + j]);
+    cout << endl;
   }
   system("pause");
+  return 0;
 }
